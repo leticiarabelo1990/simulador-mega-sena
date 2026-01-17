@@ -10,7 +10,13 @@ interface ResultsViewProps {
 }
 
 const ResultsView: React.FC<ResultsViewProps> = ({ amount, onReset }) => {
-  const [rates, setRates] = useState<MarketRates | null>(null);
+  // Initialize with fallback values for instant display, then update with real data
+  const [rates, setRates] = useState<MarketRates>({
+    selic: 12.25,
+    cdi: 12.15,
+    poupanca: 0.5,
+    fiiYield: 0.88,
+  });
   const [scrollY, setScrollY] = useState(0);
 
   // Dynamic font-size calculation for header to prevent overflow
@@ -42,7 +48,6 @@ const ResultsView: React.FC<ResultsViewProps> = ({ amount, onReset }) => {
   }, []);
 
   const calculateYield = (id: string) => {
-    if (!rates) return 0;
     // IR for long-term investments (>720 days): 15%
     // For "living off income" simulations, we assume long-term holdings
     const taxFactor = 0.85;
@@ -76,7 +81,7 @@ const ResultsView: React.FC<ResultsViewProps> = ({ amount, onReset }) => {
       icon: 'savings',
       color: '#005295',
       desc: 'Isenta de Imposto de Renda. Liquidez imediata, mas o menor rendimento da lista.',
-      rate: rates ? `${rates.poupanca}% am` : '0,50% am'
+      rate: `${rates.poupanca}% am`
     },
     {
       id: 'selic',
@@ -84,7 +89,7 @@ const ResultsView: React.FC<ResultsViewProps> = ({ amount, onReset }) => {
       icon: 'account_balance_wallet',
       color: '#004279',
       desc: 'O investimento mais seguro do Brasil. Emprestado diretamente para o Governo Federal.',
-      rate: rates ? `${rates.selic.toFixed(2)}% aa` : '11,25% aa'
+      rate: `${rates.selic.toFixed(2)}% aa`
     },
     {
       id: 'nubank',
@@ -92,7 +97,7 @@ const ResultsView: React.FC<ResultsViewProps> = ({ amount, onReset }) => {
       icon: 'payments',
       color: '#00315c',
       desc: '100% do CDI (Nubank, Inter, Itaú). Praticidade com rendimento diário superior à poupança.',
-      rate: rates ? `${rates.cdi.toFixed(2)}% aa` : '11,15% aa'
+      rate: `${rates.cdi.toFixed(2)}% aa`
     },
     {
       id: 'fiis',
@@ -100,7 +105,7 @@ const ResultsView: React.FC<ResultsViewProps> = ({ amount, onReset }) => {
       icon: 'apartment',
       color: '#00213f',
       desc: 'Receba "aluguéis" mensais isentos de IR. Viver de renda com imóveis sem burocracia.',
-      rate: rates ? `${rates.fiiYield}% am` : '0,90% am'
+      rate: `${rates.fiiYield}% am`
     },
   ];
 
