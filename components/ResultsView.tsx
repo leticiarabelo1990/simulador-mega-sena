@@ -109,6 +109,13 @@ const ResultsView: React.FC<ResultsViewProps> = ({ amount, onReset }) => {
     },
   ];
 
+  // Find the investment with the highest yield
+  const bestInvestment = investments.reduce((best, current) => {
+    const bestYield = calculateYield(best.id);
+    const currentYield = calculateYield(current.id);
+    return currentYield > bestYield ? current : best;
+  }, investments[0]);
+
   return (
     <div className="relative bg-[#020617]">
       {/* GLOBAL PARALLAX DECORATIONS */}
@@ -200,7 +207,7 @@ const ResultsView: React.FC<ResultsViewProps> = ({ amount, onReset }) => {
             </h3>
             <p className="text-2xl md:text-5xl text-white/30 font-thin tracking-tight leading-tight">
               Sua liberdade financeira começa com um clique. <br />
-              Em FIIs, você receberia cerca de <strong className="text-white font-black">{formatBRL(calculateYield('fiis'))}</strong> extra todo mês.
+              Em <strong className="text-white font-black">{bestInvestment.name}</strong>, você receberia cerca de <strong className="text-white font-black">{formatBRL(calculateYield(bestInvestment.id))}</strong> extra todo mês.
             </p>
           </div>
 
