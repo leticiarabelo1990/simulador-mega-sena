@@ -1,0 +1,45 @@
+
+import { InvestmentOption } from './types';
+
+export const INVESTMENT_OPTIONS: InvestmentOption[] = [
+  {
+    id: 'poupanca',
+    name: 'Poupança',
+    description: 'O investimento mais tradicional do brasileiro. Seguro, isento de IR, mas com o rendimento mais conservador da lista.',
+    icon: 'savings',
+    rateLabel: 'Taxa: 0,5% + TR ao mês',
+    footerLabel: '*Valor aproximado baseado na taxa atual',
+    color: '#005295',
+    calcYield: (amount: number) => amount * 0.005,
+  },
+  {
+    id: 'selic',
+    name: 'Tesouro SELIC',
+    description: 'Considerado o investimento mais seguro do país. Atrelado à taxa básica de juros, oferece liquidez diária e alta segurança.',
+    icon: 'account_balance_wallet',
+    rateLabel: 'Taxa: ~11,25% ao ano',
+    footerLabel: '*Já descontado o Imposto de Renda (15%)',
+    color: '#004279',
+    calcYield: (amount: number) => (amount * (0.1125 / 12)) * 0.85, // Simple monthly estimation minus 15% IR
+  },
+  {
+    id: 'cdb',
+    name: 'CDB (100% CDI)',
+    description: 'Emissões bancárias que acompanham o CDI. Praticamente o mesmo rendimento da SELIC, com a garantia do FGC até o limite permitido.',
+    icon: 'trending_up',
+    rateLabel: 'Benchmark: 100% do CDI',
+    footerLabel: '*Baseado no CDI médio atual',
+    color: '#00315c',
+    calcYield: (amount: number) => (amount * (0.1115 / 12)) * 0.85,
+  },
+  {
+    id: 'fiis',
+    name: 'Dividendos FIIs',
+    description: 'Renda passiva isenta de Imposto de Renda para pessoa física. Equivale a possuir centenas de prédios alugados.',
+    icon: 'apartment',
+    rateLabel: 'Yield médio: 0,8% a 1% am',
+    footerLabel: '*Média de mercado (0.9% am)',
+    color: '#00213f',
+    calcYield: (amount: number) => amount * 0.009,
+  }
+];
